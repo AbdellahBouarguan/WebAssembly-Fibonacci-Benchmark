@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance Analysis: WebAssembly vs JavaScript</title>
+    <title>Analyse de Performance : WebAssembly vs JavaScript</title>
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -22,20 +22,20 @@
 <body>
     <div class="container">
         <header>
-            <h1>Performance Analysis</h1>
-            <h2>Recursive Algorithms: WebAssembly (C) vs Vanilla JavaScript</h2>
+            <h1>Analyse de Performance</h1>
+            <h2>Algorithmes Récursifs : WebAssembly (C) vs Vanilla JavaScript</h2>
             <p class="abstract">
-                <strong>Abstract:</strong> This benchmark evaluates the execution time of the recursive Fibonacci sequence algorithm $\mathcal{O}(2^n)$. We vary $n \in [22, 45]$ to observe the exponential growth and compare the baseline engines: interpreted/JIT JavaScript versus Ahead-Of-Time (AOT) compiled WebAssembly.
+                <strong>Résumé :</strong> Ce benchmark évalue le temps d'exécution de l'algorithme récursif de la suite de Fibonacci $\mathcal{O}(2^n)$. Nous faisons varier $n \in [22, 45]$ pour observer la croissance exponentielle et comparer les moteurs de référence : JavaScript interprété/JIT contre WebAssembly compilé à l'avance (AOT).
             </p>
         </header>
 
         <main>
             <div class="controls">
-                <button id="btn-runSuite" disabled>Initializing WebAssembly...</button>
+                <button id="btn-runSuite" disabled>Initialisation de WebAssembly...</button>
                 <div class="progress-container">
                     <div id="progress-bar"></div>
                 </div>
-                <p id="status-text">Ready to run benchmark.</p>
+                <p id="status-text">Prêt à lancer le benchmark.</p>
             </div>
 
             <div class="chart-container">
@@ -43,14 +43,14 @@
             </div>
 
             <div class="results-table-container">
-                <h3>Data Extraction (Key Points)</h3>
+                <h3>Extraction des Données (Points Clés)</h3>
                 <table id="results-table">
                     <thead>
                         <tr>
                             <th>N</th>
                             <th>JavaScript (ms)</th>
                             <th>WebAssembly (ms)</th>
-                            <th>Factor (JS/Wasm)</th>
+                            <th>Facteur (JS/Wasm)</th>
                         </tr>
                     </thead>
                     <tbody id="results-body">
@@ -60,11 +60,11 @@
             </div>
 
             <div class="explanation">
-                <h3>Theoretical Justification of Results</h3>
+                <h3>Justification Théorique des Résultats</h3>
                 <ol>
-                    <li><strong>JIT Warm-up & Interpreter Overhead:</strong> The V8 engine initiates JS execution via an interpreter (Ignition) before identifying 'hot' paths to compile via TurboFan. WebAssembly bypasses this phase, executing directly as a pre-optimized binary module.</li>
-                    <li><strong>Static vs Dynamic Dispatch:</strong> The C implementation ensures strict static typing (<code>int</code> operations). Conversely, the JavaScript VM performs dynamic type checks and deoptimizations if numerical representations fluctuate between Smis (Small Integers) and HeapNumbers.</li>
-                    <li><strong>Call Stack Efficiency:</strong> WebAssembly maintains a highly streamlined execution stack, allowing recursive frames to be pushed and popped with minimal memory overhead compared to full JS function contexts.</li>
+                    <li><strong>Echauffement JIT & Surcharge de l'Interpréteur :</strong> Le moteur V8 initie l'exécution JS via un interpréteur (Ignition) avant d'identifier les chemins 'chauds' à compiler via TurboFan. WebAssembly contourne cette phase, s'exécutant directement en tant que module binaire pré-optimisé.</li>
+                    <li><strong>Distribution Statique vs Dynamique :</strong> L'implémentation C assure un typage statique strict (opérations <code>int</code>). À l'inverse, la VM JavaScript effectue des vérifications de type dynamiques et des dé-optimisations si les représentations numériques fluctuent entre Smis (Petits Entiers) et HeapNumbers.</li>
+                    <li><strong>Efficacité de la Pile d'Appel :</strong> WebAssembly maintient une pile d'exécution hautement rationalisée, permettant aux trames récursives d'être empilées et dépilées avec une surcharge mémoire minimale comparée aux contextes de fonction JS complets.</li>
                 </ol>
             </div>
         </main>

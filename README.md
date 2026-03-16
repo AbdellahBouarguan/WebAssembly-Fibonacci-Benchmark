@@ -1,84 +1,84 @@
-# WebAssembly vs JavaScript: Recursive Fibonacci Benchmark
+# WebAssembly vs JavaScript : Benchmark de Fibonacci Récursif
 
-A rigorous, academic-style benchmark comparing the performance of the V8 JavaScript engine (Interpreted/JIT) against an Ahead-of-Time (AOT) compiled WebAssembly module (C). The benchmark evaluates the classic exponential recursive Fibonacci function $\mathcal{O}(2^n)$.
+Un benchmark rigoureux et académique comparant les performances du moteur JavaScript V8 (Interprété/JIT) face à un module WebAssembly (C) compilé à l'avance (AOT). Le benchmark évalue la fonction récursive exponentielle classique de Fibonacci $\mathcal{O}(2^n)$.
 
-## 📊 Overview
+## 📊 Aperçu
 
-This project was built to empirically demonstrate the computational superiority of WebAssembly for heavy CPU-bound recursive tasks.
+Ce projet a été conçu pour démontrer empiriquement la supériorité computationnelle de WebAssembly pour les tâches récursives intensives liées au processeur (CPU-bound).
 
-**Theoretical Highlights Demonstrated:**
-1. **No JIT Warm-up:** The C code is pre-compiled to optimize binary (Wasm) format. It hits peak performance instantly, whereas JavaScript must first be interpreted before being identified as "hot" and optimized by TurboFan.
-2. **Static Typing vs. Dynamic Dispatch:** Mathematical operations are purely typed (`int`) in the C/Wasm implementation, avoiding the dynamic type-checking overhead present in standard JavaScript execution.
-3. **Stack Management:** Wasm handles the deep execution call stack of the $\mathcal{O}(2^n)$ algorithm with exponentially less memory footprint and traversal overhead than the heavy JavaScript execution context frames.
+**Points Théoriques Démontrés :**
+1. **Pas d'échauffement JIT (No JIT Warm-up) :** Le code C est pré-compilé pour optimiser le format binaire (Wasm). Il atteint des performances maximales instantanément, tandis que JavaScript doit d'abord être interprété avant d'être identifié comme "chaud" (hot) et optimisé par TurboFan.
+2. **Typage statique vs Distribution dynamique :** Les opérations mathématiques sont purement typées (`int`) dans l'implémentation C/Wasm, évitant ainsi la surcharge de vérification dynamique des types présente dans l'exécution JavaScript standard.
+3. **Gestion de la pile (Stack Management) :** Wasm gère la pile d'appels d'exécution profonde de l'algorithme $\mathcal{O}(2^n)$ avec une empreinte mémoire et une surcharge de parcours exponentiellement moindres par rapport aux lourdes trames de contexte d'exécution JavaScript.
 
-## ✨ Features
+## ✨ Fonctionnalités
 
-- **Automated Academic Benchmark Suite:** Iterates from $N=22$ to $N=45$ seamlessly.
-- **Real-Time Scientific Plotting:** Integrates `Chart.js` to dynamically plot the exponential growth curves.
-- **Instant Data Extraction:** Auto-calculates execution time ratios and raw milliseconds into an HTML table.
+- **Suite de Benchmarks Académiques Automatisée :** Itère de $N=22$ à $N=45$ de manière fluide.
+- **Tracé Scientifique en Temps Réel :** Intègre `Chart.js` pour tracer dynamiquement les courbes de croissance exponentielle.
+- **Extraction Instantanée des Données :** Calcule automatiquement les ratios de temps d'exécution et les millisecondes brutes dans un tableau HTML.
 
-## 🚀 Setup & Installation (Cross-Platform)
+## 🚀 Configuration & Installation (Multiplateforme)
 
-### 1. Prerequisites
+### 1. Prérequis
 
-To compile the C code, you need **Emscripten** (the C to WebAssembly compiler toolchain).
-- **Windows / macOS / Linux:** Ensure you have `git` and `python3` installed.
+Pour compiler le code C, vous avez besoin de **Emscripten** (la chaîne d'outils de compilation C vers WebAssembly).
+- **Windows / macOS / Linux :** Assurez-vous d'avoir `git` et `python3` installés.
 
-### 2. Emscripten Toolchain Installation
+### 2. Installation de la Chaîne d'outils Emscripten
 
-Using the terminal, clone the `emsdk` repository:
+À l'aide du terminal, clonez le dépôt `emsdk` :
 
 ```bash
-# Clone the repository
+# Cloner le dépôt
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
 
-# Download and install the latest SDK tools
+# Télécharger et installer les derniers outils du SDK
 ./emsdk install latest
 
-# Make the "latest" SDK "active" for the current user
+# Rendre le SDK "latest" (le plus récent) "actif" pour l'utilisateur actuel
 ./emsdk activate latest
 
-# Activate PATH and other environment variables in the current terminal
+# Activer le PATH et d'autres variables d'environnement dans le terminal actuel
 source ./emsdk_env.sh
 ```
-*(On Windows, run `emsdk.bat` and `emsdk_env.bat` instead).*
+*(Sous Windows, exécutez `emsdk.bat` et `emsdk_env.bat` à la place).*
 
-### 3. Compiling the Project
+### 3. Compilation du Projet
 
-Clone this project repository and navigate into it:
+Clonez le dépôt de ce projet et naviguez dedans :
 ```bash
 git clone https://github.com/AbdellahBouarguan/WebAssembly-Fibonacci-Benchmark.git
 cd WebAssembly-Fibonacci-Benchmark
 ```
 
-Ensure the Emscripten environment is activated (from step 2), then compile the C code:
+Assurez-vous que l'environnement Emscripten est activé (depuis l'étape 2), puis compilez le code C :
 ```bash
 emcc fib.c -O3 -s EXPORTED_FUNCTIONS='["_fib"]' -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -o fib.js
 ```
-*(The `-O3` flag is critical to enable maximum performance optimizations).*
+*(L'indicateur `-O3` est essentiel pour activer les optimisations de performances maximales).*
 
-### 4. Running the Benchmark Locally
+### 4. Lancement du Benchmark en Local
 
-WebAssembly modules cannot be executed directly from the file system (`file://` protocol) due to browser CORS policies. You must serve the files through a local web server.
+Les modules WebAssembly ne peuvent pas être exécutés directement depuis le système de fichiers (protocole `file://`) en raison des politiques CORS du navigateur. Vous devez servir les fichiers via un serveur web local.
 
-**Option A - Using Python (Recommended):**
+**Option A - Utilisation de Python (Recommandée) :**
 ```bash
 python3 -m http.server 8000
 ```
 
-**Option B - Using Node.js (http-server):**
+**Option B - Utilisation de Node.js (http-server) :**
 ```bash
 npx http-server -p 8000
 ```
 
-**Option C - Using PHP:**
+**Option C - Utilisation de PHP :**
 ```bash
 php -S localhost:8000
 ```
 
-Finally, open your browser and navigate to:
+Enfin, ouvrez votre navigateur et accédez à :
 [http://localhost:8000](http://localhost:8000)
 
 ---
-*Created as part of an academic demonstration in Computer Science / Compiler Theory.*
+*Créé dans le cadre d'une démonstration académique en Informatique / Théorie de la Compilation.*

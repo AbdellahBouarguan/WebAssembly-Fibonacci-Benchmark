@@ -38,7 +38,7 @@ function initChart() {
                     pointHoverRadius: 6
                 },
                 {
-                    label: 'WebAssembly (AOT C)',
+                    label: 'WebAssembly (C AOT)',
                     data: [],
                     borderColor: '#4c6ef5',
                     backgroundColor: 'rgba(76, 110, 245, 0.1)',
@@ -56,7 +56,7 @@ function initChart() {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Execution Time vs N (Recursive Fibonacci)',
+                    text: 'Temps d\'exécution par rapport à N (Fibonacci Récursif)',
                     font: { size: 16, family: 'Roboto' }
                 },
                 tooltip: {
@@ -71,10 +71,10 @@ function initChart() {
             },
             scales: {
                 x: {
-                    title: { display: true, text: 'N (Fibonacci Sequence Index)', font: { weight: 'bold' } }
+                    title: { display: true, text: 'N (Index de la suite de Fibonacci)', font: { weight: 'bold' } }
                 },
                 y: {
-                    title: { display: true, text: 'Time (ms)', font: { weight: 'bold' } },
+                    title: { display: true, text: 'Temps (ms)', font: { weight: 'bold' } },
                     beginAtZero: true
                 }
             },
@@ -91,14 +91,14 @@ function initChart() {
 if (typeof Module !== 'undefined') {
     Module.onRuntimeInitialized = () => {
         fibWasm = Module.cwrap('fib', 'number', ['number']);
-        btnRunSuite.textContent = `Run Benchmark Suite (N=${N_START} to ${N_END})`;
+        btnRunSuite.textContent = `Lancer la Suite de Benchmarks (N=${N_START} à ${N_END})`;
         btnRunSuite.disabled = false;
     };
 } else {
     window.addEventListener('load', () => {
         if (typeof Module === 'undefined') {
-            btnRunSuite.textContent = 'Wasm Load Failed';
-            statusText.textContent = 'Error: Emscripten Module (fib.js) is not defined.';
+            btnRunSuite.textContent = 'Échec de chargement Wasm';
+            statusText.textContent = 'Erreur : Le module Emscripten (fib.js) n\'est pas défini.';
         }
     });
 }
@@ -125,7 +125,7 @@ async function runBenchmarkSuite() {
 
     // Loop through N
     for (let n = N_START; n <= N_END; n++) {
-        statusText.textContent = `Computing N=${n} ... (Warming up memory lines)`;
+        statusText.textContent = `Calcul pour N=${n} ... (Échauffement de la mémoire)`;
         await yieldToUI();
 
         // JS Measurement
@@ -166,11 +166,11 @@ async function runBenchmarkSuite() {
             resultsBody.appendChild(tr);
         }
 
-        statusText.textContent = `Finished N=${n}. JS: ${jsTime.toFixed(0)}ms | Wasm: ${wasmTime.toFixed(0)}ms`;
+        statusText.textContent = `Terminé pour N=${n}. JS : ${jsTime.toFixed(0)}ms | Wasm : ${wasmTime.toFixed(0)}ms`;
         await yieldToUI();
     }
 
-    statusText.textContent = `Benchmark Complete. N=${N_START} to ${N_END} finished.`;
+    statusText.textContent = `Benchmark Terminé. N=${N_START} à ${N_END} achevé.`;
     btnRunSuite.disabled = false;
 }
 
