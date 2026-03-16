@@ -48,8 +48,8 @@ source ./emsdk_env.sh
 
 Clone this project repository and navigate into it:
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/AbdellahBouarguan/WebAssembly-Fibonacci-Benchmark.git
+cd WebAssembly-Fibonacci-Benchmark
 ```
 
 Ensure the Emscripten environment is activated (from step 2), then compile the C code:
